@@ -9,6 +9,19 @@ using UserApi.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configurar CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularApp",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:4200") // Dirección de tu aplicación Angular
+                   .AllowAnyHeader()
+                   .AllowAnyMethod()
+                   .AllowCredentials();
+        });
+});
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -19,6 +32,7 @@ builder.Services.AddSwaggerGen();
 // Configurar FluentValidation
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<UserCreateDtoValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UserUpdateDtoValidator>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
@@ -30,6 +44,9 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
 var app = builder.Build();
+
+// Usar CORS
+app.UseCors("AllowAngularApp");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

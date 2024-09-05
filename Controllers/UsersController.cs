@@ -57,7 +57,7 @@ namespace UserApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserCreateDto userDto)
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserUpdateDto userDto)
         {
             if (!ModelState.IsValid)
             {

@@ -10,6 +10,7 @@ namespace UserApi.Mappings
         {
             CreateMap<User, UserDto>();
             CreateMap<UserCreateDto, User>();
+            CreateMap<UserUpdateDto, User>();
         }
     }
 }
